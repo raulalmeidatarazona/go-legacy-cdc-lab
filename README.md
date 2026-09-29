@@ -68,4 +68,4 @@ The project connects to Raúl Almeida's published writing on [the polling tax](h
 - `go test ./...` covers event parsing and mapping. `INTEGRATION=1 go test ./...` additionally checks transactional rollback against the local MySQL container.
 - `go test -race ./...` runs Go's race detector.
 - `make down` deletes the demo database volume.
-- Before presenting this as a production-ready reference: choose a license; complete the planned reliability slice and record a short screencast. CI is configured but will be verified when the repository is pushed.
+- Before presenting this as a production-ready reference: choose a license; complete the planned reliability slice and record a short screencast. CI runs the unit, race, integration and end-to-end demo checks on each push.
