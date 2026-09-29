@@ -1,0 +1,24 @@
+name: verify
+on:
+  push:
+  pull_request:
+jobs:
+  go:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          cache: true
+      - name: Unit tests and race detector
+        run: go test -race ./...
+      - name: Start MySQL
+        run: docker compose up -d --wait
+      - name: Transactional rollback integration test
+        run: INTEGRATION=1 go test ./...
+      - name: End-to-end CDC smoke test
+        run: go run ./cmd/demo
+      - name: Docker logs on failure
+        if: failure()
+        run: docker compose logs mysql
